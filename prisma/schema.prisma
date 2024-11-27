@@ -55,6 +55,7 @@ model Accounts {
   // 계정 수정일자
   updatedAt DateTime @updatedAt @map("updatedAt")
 
+  // 하나의 계정은 캐릭터를 여러개 보유할 수 있다. 즉 계정 1: 캐릭터N 의 관계이다
   characters Characters[]
 
   @@map("Accounts")
