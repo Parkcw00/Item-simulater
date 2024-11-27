@@ -12,3 +12,76 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Items {
+  itemId    Int      @id @default(autoincrement()) @map("itemId")
+
+  // 아이템 이름(중복될 수 없음 유니크)
+  itemName     String   @unique @map("itemName")
+
+  // 아이템 공격력 (방어구일시 NULL값이 존재할 수 있음)
+  itemAtk  Int?   @map("itemAtk")
+  
+  // 아이템 방어력 (무기일시 NULL값이 존재할 수 있음)
+  itemDef Int?  @map("itemDef")
+
+  // 아이템 추가체력 (무기일시 NULL값이 존재할 수 있음)
+  itemHp Int?  @map("itemHp")
+ 
+  // 아이템 생성일자
+  createdAt DateTime? @default(now()) @map("createdAt")
+
+  // 아이템 업데이트 일자
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  @@map("Items")
+}
+
+model Accounts {
+  accountId    Int      @id @default(autoincrement()) @map("accountId")
+
+  // 유저의 아이디는 중복될 수 없음
+  userId     String   @unique @map("userId")
+
+  // 유저의 패스워드
+  userPassword  String   @map("userPassword")
+
+  // 계정 생성일자
+  createdAt DateTime @default(now()) @map("createdAt")
+
+  // 계정 수정일자
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  characters Characters[]
+
+  @@map("Accounts")
+}
+
+model Characters {
+  characterId    Int      @id @default(autoincrement()) @map("characterId")
+
+  // 하나의 계정은 여러개의 캐릭터를 가질 수 있다. 따라서 캐릭터의 계정 id는 중복될 수 있음!
+  accountId Int @map("accountId")
+
+  // 캐릭터의 직업
+  characterClass     String    @map("characterClass")
+
+  // 캐릭터의 공격력
+  characterAtk  String   @map("characterAtk")
+
+  // 캐릭터의 방어력
+  characterDef  String   @map("characterDef")
+
+  // 캐릭터의 체력
+  characterHp  String   @map("characterHp")
+
+  // 캐릭터 생성일자
+  createdAt DateTime @default(now()) @map("createdAt")
+
+  // 캐릭터 수정일자
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  accounts  Accounts  @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
+
+  @@map("Characters")
+}
