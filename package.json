@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "format": "prettier --write *.js **/*.js"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "cookie-parser": "^1.4.7",
