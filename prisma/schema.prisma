@@ -40,14 +40,11 @@ model Items {
 model Accounts {
   accountId    Int      @id @default(autoincrement()) @map("accountId")
 
-  // 유저의 아이디는 중복될 수 없음
-  userId     String   @unique @map("userId")
-
   // 유저의 이메일은 중복될 수 없음
-  userEmail  String   @unique @map("userEmail")
+  email  String   @unique @map("email")
 
   // 유저의 패스워드
-  userPassword  String   @map("userPassword")
+  password  String   @map("password")
 
   // 계정 생성일자
   createdAt DateTime @default(now()) @map("createdAt")
@@ -57,8 +54,28 @@ model Accounts {
 
   // 하나의 계정은 캐릭터를 여러개 보유할 수 있다. 즉 계정 1: 캐릭터N 의 관계이다
   characters Characters[]
+  
+  // 하나의 계정은 하나의 자세한 계정정보를 보유할 수 있다. 즉 계정 1: 자세한 계정정보 1 의 관계이다.
+  accountInfos AccountInfos?
+  
 
   @@map("Accounts")
+}
+
+model AccountInfos {
+  accountInfoId   Int      @id @default(autoincrement()) @map("accountInfoId")
+  accountId       Int      @unique @map("accountId") // 사용자(Users) 테이블을 참조하는 외래키
+  name         String   @map("name")
+  age          Int?     @map("age")
+  gender       String   @map("gender")
+  profileImage String?  @map("profileImage")
+  createdAt    DateTime @default(now()) @map("createdAt")
+  updatedAt    DateTime @updatedAt @map("updatedAt")
+
+  
+  account Accounts @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
+
+  @@map("AccountInfos")
 }
 
 model Characters {
@@ -85,7 +102,7 @@ model Characters {
   // 캐릭터 수정일자
   updatedAt DateTime @updatedAt @map("updatedAt")
 
-  accounts  Accounts  @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
+  account  Accounts  @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
 
   @@map("Characters")
 }
