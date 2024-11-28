@@ -86,15 +86,21 @@
 ### 2. 데이터베이스 모델링 구현
 
 1. <span style="color:blue;">**아이템 테이블**</span>을 생성하여 다양한 아이템들이 모델을 활용하여 구현되게 되었습니다.
+
 2. <span style="color:blue;">**캐릭터 테이블**</span>을 생성하여 캐릭터모델을 활용하여 하나의 계정이 다양한 캐릭터를 보유할 수 있습니다.
+
 3. <span style="color:blue;">**계정 테이블**</span>을 생성하여 이용자의 이메일과 아이디 및 비밀번호를 입력 받습니다.
 
 ### 3. API 구현하기
 
 1. <span style="color:blue;">**회원가입 API**</span> 를 생성하여 email, password, name, gender 등을 입력하여 계정생성 api를 구현하였습니다.
 2. <span style="color:blue;">**로그인 API**</span> 를 생성하여 가입된 email과 password를 입력하여 암호화된 accountId를 jwt 형식으로 쿠키로 반환받게 구현하였습니다.
-3. <span style="color:blue;">**계정상세조회 API**</span> 를 생성하여 로그인 후, 상세조회 api에 get형식으로 진입시 req.cookies 에 암호화된 accountId가 있는 middleware 과정을 거쳐 로그인이 확인되면 계정상세 조회가 가능하게 구현하였습니다.
+3. <span style="color:blue;">**계정 상세 조회 API**</span> 를 생성하여 로그인 후, 상세조회 api에 get형식으로 진입시 req.cookies 에 암호화된 accountId가 있는 middleware 과정을 거쳐 로그인이 확인되면 계정상세 조회가 가능하게 구현하였습니다.
 4. <span style="color:blue;">**캐릭터 생성 API**</span>를 생성하여 로그인 후, 생성할 캐릭터의 이름과 직업을 선택하면 기본공격력 100, 체력 500, 자금 10000의 캐릭터가 생성됩니다.
 5. <span style="color:blue;">**캐릭터 조회 리스트 API**</span> 캐릭터 조회리스트를 생성하여, 로그인 후 서버에 존재하는 모든 캐릭터 리스트들을 확인할 수 있습니다.
 6. <span style="color:blue;">**캐릭터 상세 조회 리스트 API**</span> 캐릭터의 id를 파라미터로 입력받아 상세조회가 가능합니다. 상세조회시, 해당 캐릭터의 체력과 공격력을 조회할 수 있습니다. 만약 그 캐릭터가 로그인된 계정의 캐릭터라면 현재 자금상황까지 조회가 가능합니다.
 7. <span style="color:blue;">**캐릭터 삭제API**</span> 로그인 후, 본인 계정의 캐릭터의 id를 파라미터로 입력하면 해당 캐릭터가 삭제됩니다. 본인 계정 외의 다른 계정의 캐릭터들은 삭제가 불가능합니다.
+8. <span style="color:blue;">**아이템 생성API**</span> 아이템의 이름, 방어력, 공격력, 체력, 값을 입력받아 아이템을 생성합니다.
+9. <span style="color:blue;">**아이템 정보 수정API**</span> 아이템의 아이디를 파라미터로 입력받아 해당 아이템의 정보를 수정합니다.
+10. <span style="color:blue;">**아이템 목록 조회API**</span> 서버에 존재하는 모든 아이템의 이름과 가격을 조회할 수 있습니다.
+11. <span style="color:blue;">**아이템 세부 조회API**</span> 아이템의 아이디를 파라미터로 해당 아이템의 세부적인 능력치를 조회할 수 있습니다.
