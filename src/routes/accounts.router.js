@@ -10,39 +10,43 @@ const router = express.Router();
 
 /** 사용자 회원가입 API **/
 router.post("/sign-up", async (req, res, next) => {
-  const { email, password, name, age, gender, profileImage } = req.body;
-  const isExistUser = await prisma.accounts.findFirst({
-    where: {
-      email,
-    },
-  });
+  try {
+    const { email, password, name, age, gender, profileImage } = req.body;
+    const isExistUser = await prisma.accounts.findFirst({
+      where: {
+        email,
+      },
+    });
 
-  if (isExistUser) {
-    return res.status(409).json({ message: "이미 존재하는 이메일입니다." });
+    if (isExistUser) {
+      return res.status(409).json({ message: "이미 존재하는 이메일입니다." });
+    }
+
+    // 사용자 비밀번호를 암호화합니다.
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // accounts 테이블에 사용자를 추가합니다.
+    const account = await prisma.accounts.create({
+      data: {
+        email,
+        password: hashedPassword, // 암호화된 비밀번호를 저장합니다.
+      },
+    });
+    // accountInfos 테이블에 사용자 정보를 추가합니다.
+    const accountInfo = await prisma.accountInfos.create({
+      data: {
+        accountId: account.accountId, // 생성한 계정의 accountId 바탕으로 사용자 정보를 생성합니다.
+        name,
+        age,
+        gender: gender.toUpperCase(), // 성별을 대문자로 변환합니다.
+        profileImage,
+      },
+    });
+
+    return res.status(201).json({ message: "회원가입이 완료되었습니다." });
+  } catch (err) {
+    next(err);
   }
-
-  // 사용자 비밀번호를 암호화합니다.
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // accounts 테이블에 사용자를 추가합니다.
-  const account = await prisma.accounts.create({
-    data: {
-      email,
-      password: hashedPassword, // 암호화된 비밀번호를 저장합니다.
-    },
-  });
-  // accountInfos 테이블에 사용자 정보를 추가합니다.
-  const accountInfo = await prisma.accountInfos.create({
-    data: {
-      accountId: account.accountId, // 생성한 계정의 accountId 바탕으로 사용자 정보를 생성합니다.
-      name,
-      age,
-      gender: gender.toUpperCase(), // 성별을 대문자로 변환합니다.
-      profileImage,
-    },
-  });
-
-  return res.status(201).json({ message: "회원가입이 완료되었습니다." });
 });
 
 /** 로그인 API **/
