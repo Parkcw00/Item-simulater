@@ -17,19 +17,21 @@ model Items {
   itemId    Int      @id @default(autoincrement()) @map("itemId")
 
   // 아이템 이름(중복될 수 없음 유니크)
-  itemName     String   @unique @map("itemName")
+  name     String   @unique @map("name")
 
   // 아이템 공격력 (방어구일시 NULL값이 존재할 수 있음)
-  itemAtk  Int?   @map("itemAtk")
+  atk  Int?   @map("atk")
   
   // 아이템 방어력 (무기일시 NULL값이 존재할 수 있음)
-  itemDef Int?  @map("itemDef")
+  def Int?  @map("def")
 
   // 아이템 추가체력 (무기일시 NULL값이 존재할 수 있음)
-  itemHp Int?  @map("itemHp")
+  hp Int?  @map("hp")
+
+  price Int @map("price")
  
   // 아이템 생성일자
-  createdAt DateTime? @default(now()) @map("createdAt")
+  createdAt DateTime @default(now()) @map("createdAt")
 
   // 아이템 업데이트 일자
   updatedAt DateTime @updatedAt @map("updatedAt")
