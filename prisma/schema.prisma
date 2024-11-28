@@ -84,19 +84,20 @@ model Characters {
   // 하나의 계정은 여러개의 캐릭터를 가질 수 있다. 따라서 캐릭터의 계정 id는 중복될 수 있음!
   accountId Int @map("accountId")
 
-  Name     String    @map("Name")
+  // 캐릭터의 이름은 중복될 수 없습니다!
+  name     String   @unique @map("name")
 
   // 캐릭터의 직업
-  Class     String    @map("Class")
+  class     String    @map("class")
 
   // 캐릭터의 공격력
-  Atk  String   @map("Atk")
+  atk  Int  @default(100) @map("atk")
 
   // 캐릭터의 방어력
-  Def  String   @map("Def")
+  def  Int  @default(20) @map("def")
 
   // 캐릭터의 체력
-  Hp  String   @map("Hp")
+  hp  Int  @default(500) @map("hp")
 
     // 캐릭터가 가진 돈
   money  Int     @default(10000) @map("money")
